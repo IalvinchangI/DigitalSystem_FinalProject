@@ -1,0 +1,16 @@
+# Ignore everything
+*
+
+# Except the following
+
+# Design files
+!*.v
+
+# Pinout
+!*.qsf
+
+# Project file
+!*.qpf
+
+# gitignore
+!.gitignore
