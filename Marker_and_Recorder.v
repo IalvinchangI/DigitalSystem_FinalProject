@@ -41,7 +41,8 @@ module Marker_and_Recorder(
                 for (i = 2; i >= 0; i = i - 1) begin
                     circle_history[i] <= circle_history[i + 1];  
                 end
-
+                circle_count <= circle_count + 1;
+                
                 // disappearing crosses
                 if (circle_count >= 3 && cross_count >= 3) begin
                     game_grid[cross_history[circle_count - 3] + 9] <= 1'b0;
