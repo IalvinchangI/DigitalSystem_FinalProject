@@ -1,3 +1,4 @@
+// @author IalvinchangI
 
 module VGADisplay_SyncGenerator #(  // default: HSync
 		parameter SYNC_PULSE = 96, 		// the length of sync pulse

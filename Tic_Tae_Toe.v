@@ -16,7 +16,7 @@ module Tic_Tae_Toe(
 	output [7:0] dot_row;	// DotMatrix row
 	output [7:0] dot_col;	// DotMatrix col
 	
-	output [6:0] seven1;		// HEX16 ~ HEX10
+	output [7:0] seven1;		// HEX17 ~ HEX10
 	output [6:0] seven0;		// HEX06 ~ HEX00
 	
 	output [3:0] VGA_R;		// VGA red

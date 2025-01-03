@@ -1,3 +1,4 @@
+// @author IalvinchangI
 
 module FrequencyDivider #(parameter TimeExpire=32'd2500) (clock, clock_div);
 

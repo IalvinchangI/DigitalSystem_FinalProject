@@ -1,4 +1,4 @@
-module GameIsOver(b0,b1,b2,b3,b4,b5,b6,b7,b8,gameend)
+module GameIsOver(b0,b1,b2,b3,b4,b5,b6,b7,b8,gameend);
 input [1:0] b0,b1,b2,b3,b4,b5,b6,b7,b8;
 output gameend;
 reg gameend;
@@ -33,3 +33,4 @@ begin
     end
 
 end
+endmodule

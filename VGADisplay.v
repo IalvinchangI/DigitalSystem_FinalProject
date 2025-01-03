@@ -1,3 +1,4 @@
+// @author IalvinchangI
 
 module VGADisplay(pixel_clock, reset, a1, a2, a3, a4, a5, a6, a7, a8, a9, VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS);
 	input pixel_clock;

@@ -52,12 +52,68 @@ set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_location_assignment PIN_N2 -to VGA_B[3]
+set_location_assignment PIN_P4 -to VGA_B[2]
+set_location_assignment PIN_T1 -to VGA_B[1]
+set_location_assignment PIN_P1 -to VGA_B[0]
+set_location_assignment PIN_R1 -to VGA_G[3]
+set_location_assignment PIN_R2 -to VGA_G[2]
+set_location_assignment PIN_T2 -to VGA_G[1]
+set_location_assignment PIN_W1 -to VGA_G[0]
+set_location_assignment PIN_N3 -to VGA_HS
+set_location_assignment PIN_N1 -to VGA_VS
+set_location_assignment PIN_Y1 -to VGA_R[3]
+set_location_assignment PIN_Y2 -to VGA_R[2]
+set_location_assignment PIN_V1 -to VGA_R[1]
+set_location_assignment PIN_AA1 -to VGA_R[0]
+set_location_assignment PIN_P11 -to clock
+set_location_assignment PIN_W13 -to dot_col[7]
+set_location_assignment PIN_W12 -to dot_col[6]
+set_location_assignment PIN_AB12 -to dot_col[5]
+set_location_assignment PIN_W6 -to dot_col[4]
+set_location_assignment PIN_Y11 -to dot_col[3]
+set_location_assignment PIN_W5 -to dot_col[2]
+set_location_assignment PIN_AA14 -to dot_col[1]
+set_location_assignment PIN_AB13 -to dot_col[0]
+set_location_assignment PIN_W7 -to dot_row[7]
+set_location_assignment PIN_V8 -to dot_row[6]
+set_location_assignment PIN_W9 -to dot_row[5]
+set_location_assignment PIN_V7 -to dot_row[4]
+set_location_assignment PIN_Y8 -to dot_row[3]
+set_location_assignment PIN_W10 -to dot_row[2]
+set_location_assignment PIN_AA10 -to dot_row[1]
+set_location_assignment PIN_AA8 -to dot_row[0]
+set_location_assignment PIN_AA2 -to keypadCol[3]
+set_location_assignment PIN_Y3 -to keypadCol[2]
+set_location_assignment PIN_Y4 -to keypadCol[1]
+set_location_assignment PIN_Y5 -to keypadCol[0]
+set_location_assignment PIN_AA6 -to keypadRow[3]
+set_location_assignment PIN_AA5 -to keypadRow[2]
+set_location_assignment PIN_AB3 -to keypadRow[1]
+set_location_assignment PIN_AB2 -to keypadRow[0]
+set_location_assignment PIN_B8 -to reset
+set_location_assignment PIN_C17 -to seven0[6]
+set_location_assignment PIN_D17 -to seven0[5]
+set_location_assignment PIN_E16 -to seven0[4]
+set_location_assignment PIN_C16 -to seven0[3]
+set_location_assignment PIN_C15 -to seven0[2]
+set_location_assignment PIN_E15 -to seven0[1]
+set_location_assignment PIN_C14 -to seven0[0]
+set_location_assignment PIN_B17 -to seven1[6]
+set_location_assignment PIN_A18 -to seven1[5]
+set_location_assignment PIN_A17 -to seven1[4]
+set_location_assignment PIN_B16 -to seven1[3]
+set_location_assignment PIN_D18 -to seven1[2]
+set_location_assignment PIN_C18 -to seven1[1]
+set_location_assignment PIN_E18 -to seven1[0]
+set_global_assignment -name VERILOG_FILE GameIsOver.v
+set_global_assignment -name VERILOG_FILE CurrentInput.v
 set_global_assignment -name VERILOG_FILE RGB_get.v
-set_global_assignment -name VERILOG_FILE Marker_and_Recorder.v
 set_global_assignment -name VERILOG_FILE Tic_Tae_Toe.v
 set_global_assignment -name VERILOG_FILE VGADisplay.v
 set_global_assignment -name VERILOG_FILE VGADisplay_SyncGenerator.v
 set_global_assignment -name VERILOG_FILE FrequencyDivider.v
-set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
-set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+set_location_assignment PIN_A16 -to seven1[7]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
