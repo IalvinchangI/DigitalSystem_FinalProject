@@ -14,7 +14,7 @@ module Marker_and_Recorder(
     reg [1:0] circle_count;              // 0,1,2,3,0,1,2,3...
     reg [1:0] cross_count;  
 
-    integer i; for looping
+    integer i;                           // for looping
 
     reg [2:0] circle_history [3:0]; 
     reg [2:0] cross_history [3:0]; 
