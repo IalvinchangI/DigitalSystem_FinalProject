@@ -1,102 +1,110 @@
-module CurrentInput(rst,keyPadBuf,a0,a1,a2,a3,a4,a5,a6,a7,a8,b0,b1,b2,b3,b4,b5,b6,b7,b8,whosTurn);
-	
-	input rst;
-	input [2:0] keyPadBuf;
-	input [1:0] a0,a1,a2,a3,a4,a5,a6,a7,a8;// the matrix after elimination
-	
-	output reg [1:0] b0,b1,b2,b3,b4,b5,b6,b7,b8;//
-	output reg whosTurn;//0:X 1:O
-	
-	always@(*)begin
-		if(!rst) begin
-			b0 <= 2'b00;
-         b1 <= 2'b00;
-         b2 <= 2'b00;
-         b3 <= 2'b00;
-         b4 <= 2'b00;
-         b5 <= 2'b00;
-         b6 <= 2'b00;
-         b7 <= 2'b00;
-         b8 <= 2'b00;
-			whosTurn <= 0;
-		end
-		
-		b0 <= a0;
-      b1 <= a1;
-      b2 <= a2;
-      b3 <= a3;
-      b4 <= a4;
-      b5 <= a5;
-      b6 <= a6;
-      b7 <= a7;
-      b8 <= a8;
-		
-		case(keyPadBuf) 
-		
-			3'd0:begin
-				if(a0==0) begin
-					b0 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd1:begin
-				if(a1==0) begin
-					b1 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd2:begin
-				if(a2==0) begin
-					b2 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd3:begin
-				if(a3==0) begin
-					b3 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd4:begin
-				if(a4==0) begin
-					b4 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd5:begin
-				if(a5==0) begin
-					b5 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd6:begin
-				if(a6==0) begin
-					b6 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd7:begin
-				if(a7==0) begin
-					b7 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-			3'd8:begin
-				if(a8==0) begin
-					b8 <= (whosTurn)?2'b01:2'b10;
-					whosTurn <= ~whosTurn;
-				end
-			end
-			
-		endcase
-	end
-	
+module CurrentInput(
+    clk, rst, keyPadBuf,
+    a0, a1, a2, a3, a4, a5, a6, a7, a8,
+    location, whosTurn, mark, timeLeft1, timeLeft2
+);
+    input rst, clk; // 10Hz clock
+    input [3:0] keyPadBuf;
+    input [1:0] a0, a1, a2, a3, a4, a5, a6, a7, a8; // The matrix after elimination
+
+    output reg [3:0] location;//0~8
+    output reg [1:0] mark;//10:X, 01:O, 00:default
+    output reg whosTurn; // 1: X, 0: O
+    output reg [3:0] timeLeft1, timeLeft2; //1 for ten digits, 2 for single digit
+
+    reg [7:0] timeCounter;
+
+    always @(posedge clk or negedge rst) begin
+        if (!rst) begin
+            timeCounter <= 8'd80;
+            whosTurn <= 0;
+            mark <= 2'b00;
+            location <= 4'd0;
+        end else begin
+            if (timeCounter == 0) begin
+                whosTurn <= ~whosTurn;
+                timeCounter <= 8'd80;
+            end else begin
+                timeCounter <= timeCounter - 1;
+            end
+
+            timeLeft1 <= timeCounter/10;
+            timeLeft2 <= timeCounter%10;
+
+            case (keyPadBuf)
+                4'd0: begin
+                    if (a0 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd0;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd1: begin
+                    if (a1 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd1;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd2: begin
+                    if (a2 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd2;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd3: begin
+                    if (a3 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd3;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd4: begin
+                    if (a4 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd4;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd5: begin
+                    if (a5 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd5;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd6: begin
+                    if (a6 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd6;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd7: begin
+                    if (a7 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd7;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+                4'd8: begin
+                    if (a8 == 2'b00) begin
+                        mark <= (whosTurn) ? 2'b01 : 2'b10;
+                        whosTurn <= ~whosTurn;
+                        location <= 4'd8;
+                        timeCounter <= 8'd80;
+                    end else mark <= 2'b00;
+                end
+            endcase
+        end
+    end
 endmodule
