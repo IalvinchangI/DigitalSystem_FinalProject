@@ -3,7 +3,7 @@
 module Marker_and_Recorder( 
     input clk,
     input rst,
-    input game_state, 
+    input [1:0] game_state, 
     input whosTurn,                      // 1:X,  0:O
     input [1:0] mark,                    // mark for 10:X, 01:O, 00:default
     input [3:0] position,                // choice of position for this run on grid (0-8)
@@ -28,7 +28,7 @@ module Marker_and_Recorder(
     reg [3:0] circle_history [0:3]; 
     reg [3:0] cross_history [0:3]; 
 
-    always @(posedge clk or negedge rst) begin
+    always @(position or negedge rst) begin
         game_grid[0] <= x0;
         game_grid[1] <= x1;
         game_grid[2] <= x2;
