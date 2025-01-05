@@ -3,7 +3,7 @@ module CurrentInput(
     a0, a1, a2, a3, a4, a5, a6, a7, a8,
     location, whosTurn, mark, timeLeft1, timeLeft2
 );
-    input rst, clk; // 10Hz clock
+    input rst, clk; // 100Hz clock
     input [3:0] keyPadBuf;
     input [1:0] a0, a1, a2, a3, a4, a5, a6, a7, a8; // The matrix after elimination
 
@@ -12,24 +12,24 @@ module CurrentInput(
     output reg whosTurn; // 1: X, 0: O
     output reg [3:0] timeLeft1, timeLeft2; //1 for ten digits, 2 for single digit
 
-    reg [7:0] timeCounter;
+    reg [10:0] timeCounter;
 
     always @(posedge clk or negedge rst) begin
         if (!rst) begin
-            timeCounter <= 8'd80;
+            timeCounter <= 10'd800;
             whosTurn <= 0;
             mark <= 2'b00;
             location <= 4'd0;
         end else begin
             if (timeCounter == 0) begin
                 whosTurn <= ~whosTurn;
-                timeCounter <= 8'd80;
+                timeCounter <= 10'd800;
             end else begin
                 timeCounter <= timeCounter - 1;
             end
 
-            timeLeft1 <= timeCounter/10;
-            timeLeft2 <= timeCounter%10;
+            timeLeft1 <= timeCounter/100;
+            timeLeft2 <= (timeCounter/10)%10;
 
             case (keyPadBuf)
                 4'd0: begin
@@ -37,7 +37,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd0;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd1: begin
@@ -45,7 +45,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd1;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd2: begin
@@ -53,7 +53,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd2;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd3: begin
@@ -61,7 +61,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd3;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd4: begin
@@ -69,7 +69,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd4;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd5: begin
@@ -77,7 +77,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd5;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd6: begin
@@ -85,7 +85,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd6;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd7: begin
@@ -93,7 +93,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd7;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
                 4'd8: begin
@@ -101,7 +101,7 @@ module CurrentInput(
                         mark <= (whosTurn) ? 2'b01 : 2'b10;
                         whosTurn <= ~whosTurn;
                         location <= 4'd8;
-                        timeCounter <= 8'd80;
+                        timeCounter <= 10'd800;
                     end else mark <= 2'b00;
                 end
             endcase
