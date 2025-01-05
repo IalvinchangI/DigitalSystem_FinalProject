@@ -28,10 +28,10 @@ module KeyPad (
 
     // 按鍵值解碼邏輯
 	always @(posedge clk_100Hz or negedge reset) begin
-        if (reset)
-            keyValue <= 4'b0000; // initial KeyValue
+	if (~reset)
+            keyValue <= 4'd9; // initial KeyValue
         else 
-		  begin
+	begin
             case ({keypadRow, keypadCol})
                // 第一行
                 8'b0111_0111: keyValue <= 4'd0; // 按鍵 0(F)
