@@ -1,54 +1,3 @@
-////7Display
-//module SD(
-//    input [3:0] in,    // 數字輸入
-//    input dp,          // 小數點控制
-//    output reg [7:0] out // 七段顯示器輸出 (包含小數點)
-//);
-//    always @(in or dp) begin
-//        case (in)
-//            4'd0: out = 7'b1000000;
-//				4'd1: out = 7'b1111001;
-//				4'd2: out = 7'b0100100;
-//				4'd3: out = 7'b0110000;
-//				4'd4: out = 7'b0011001;
-//				4'd5: out = 7'b0010010;
-//				4'd6: out = 7'b0000010;
-//				4'd7: out = 7'b1111000;
-//				4'd8: out = 7'b0000000;
-//				4'd9: out = 7'b0010000;
-//            default: out[6:0] = 7'b1111111; // 全滅
-//        endcase
-//        out[7] = ~dp; // 小數點控制，dp=1時亮
-//    end
-//endmodule
-//
-//// 主模組
-//module SevenDisplay(
-//   input [3:0] timeLeftTen,    // 十位數
-//   input [3:0] timeLeftOne,    // 個位數
-//	
-//	output [7:0] HEX1,   // 七段顯示器1 輸出 (十位)
-//	output [7:0] HEX0    // 七段顯示器0 輸出 (個位數)
-//);
-//
-//
-//    // 七段顯示器輸出 (十位數，不顯示小數點)
-//    SD displayTen (
-//        .in(timeLeftTen),
-//        .dp(1'b0),
-//        .out(HEX1)
-//    );
-//
-//    // 七段顯示器輸出 (個位數，顯示小數點)
-//    SD displayOne (
-//        .in(timeLeftOne),
-//        .dp(1'b1), // 小數點始終亮
-//        .out(HEX0)
-//    );
-//
-//endmodule
-
-
 module SevenDisplay(
     input [3:0] timeLeftTen,    // 十位數
     input [3:0] timeLeftOne,    // 個位數
@@ -77,7 +26,7 @@ module SevenDisplay(
             4'd9: segTen = 7'b0010000;
             default: segTen = 7'b1111111; // 全滅
         endcase
-        dpTen = 1'b0; // 十位數不顯示小數點
+        dpTen = 1'b1; // 十位數不顯示小數點
 
         // 個位數
         case (timeLeftOne)
@@ -93,7 +42,7 @@ module SevenDisplay(
             4'd9: segOne = 7'b0010000;
             default: segOne = 7'b1111111; // 全滅
         endcase
-        dpOne = 1'b1; // 個位數顯示小數點
+        dpOne = 1'b0; // 個位數顯示小數點
     end
 
     // 將數字與小數點組合到輸出
