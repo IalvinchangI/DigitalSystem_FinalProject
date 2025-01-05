@@ -18,7 +18,7 @@ module Tic_Tae_Toe(
 	output [7:0] dot_col_left;		// DotMatrix col 1
 	
 	output [7:0] seven1;				// HEX17 ~ HEX10
-	output [6:0] seven0;				// HEX06 ~ HEX00
+	output [7:0] seven0;				// HEX07 ~ HEX00
 	
 	output [3:0] VGA_R;				// VGA red
 	output [3:0] VGA_G;				// VGA green
@@ -50,23 +50,23 @@ module Tic_Tae_Toe(
 	
 	// clock generate
 	wire pixel_clock;
-	wire system_clock;
+//	wire system_clock;
 	wire keypad_clock;
 	wire dotmatrix_clock;
-	FrequencyDivider #(.TimeExpire(32'd1))				PixelClockFD (clock, pixel_clock);
-	FrequencyDivider #(.TimeExpire(32'd250_0000))	SystemClockFD (clock, system_clock);
-	FrequencyDivider #(.TimeExpire(32'd25_0000))		KeyPadClockFD (clock, keypad_clock);
-	FrequencyDivider #(.TimeExpire(32'd2500))			DotMatrixClockFD (clock, dotmatrix_clock);
+	FrequencyDivider #(.TimeExpire(32'd1))				PixelClockFD (clock, pixel_clock);  			// 25MHz
+//	FrequencyDivider #(.TimeExpire(32'd250_0000))	SystemClockFD (clock, system_clock);  			// 10Hz
+	FrequencyDivider #(.TimeExpire(32'd25_0000))		KeyPadClockFD (clock, keypad_clock);  			// 100Hz
+	FrequencyDivider #(.TimeExpire(32'd2500))			DotMatrixClockFD (clock, dotmatrix_clock);  	// 10000Hz
 	
 	
 	// system
-//	System system (
-//		reset, keypad_buffer, system_clock, 
-//		a1, a2, a3, a4, a5, a6, a7, a8, a9, 
-//		game_end, 
-//		time_left_ten, time_left_one, 
-//		turn
-//	);
+	System system (
+		reset, keypad_buffer, keypad_clock, 
+		a1, a2, a3, a4, a5, a6, a7, a8, a9, 
+		game_end, 
+		time_left_ten, time_left_one, 
+		turn
+	);
 	
 	
 	// control
