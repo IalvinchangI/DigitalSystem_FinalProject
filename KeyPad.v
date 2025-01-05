@@ -33,20 +33,20 @@ module KeyPad (
         else 
 		  begin
             case ({keypadRow, keypadCol})
-                // 第一行
-                8'b1110_1110: keyValue <= 4'd0; // 按鍵 0(F)
-                8'b1110_1101: keyValue <= 4'd1; // 按鍵 1(E)
-                8'b1110_1011: keyValue <= 4'd2; // 按鍵 2(D)
+               // 第一行
+                8'b0111_0111: keyValue <= 4'd0; // 按鍵 0(F)
+                8'b0111_1011: keyValue <= 4'd1; // 按鍵 1(E)
+                8'b0111_1101: keyValue <= 4'd2; // 按鍵 2(D)
                 
                 // 第二行
-                8'b1101_1110: keyValue <= 4'd3; // 按鍵 3(B)
-                8'b1101_1101: keyValue <= 4'd4; // 按鍵 4(3)
-                8'b1101_1011: keyValue <= 4'd5; // 按鍵 5(6)
+                8'b1011_0111: keyValue <= 4'd3; // 按鍵 3(B)
+                8'b1011_1011: keyValue <= 4'd4; // 按鍵 4(3)
+                8'b1011_1101: keyValue <= 4'd5; // 按鍵 5(6)
                 
                 // 第三行
-                8'b1011_1110: keyValue <= 4'd6; // 按鍵 6(A)
-                8'b1011_1101: keyValue <= 4'd7; // 按鍵 7(2)
-                8'b1011_1011: keyValue <= 4'd8; // 按鍵 8(5)
+                8'b1101_0111: keyValue <= 4'd6; // 按鍵 6(A)
+                8'b1101_1011: keyValue <= 4'd7; // 按鍵 7(2)
+                8'b1101_1101: keyValue <= 4'd8; // 按鍵 8(5)
 
                 default: keyValue <= 4'd9; // 預設
             endcase
