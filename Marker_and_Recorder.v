@@ -28,7 +28,7 @@ module Marker_and_Recorder(
     reg [3:0] circle_history [0:3]; 
     reg [3:0] cross_history [0:3]; 
 
-    always @(position or negedge rst) begin
+    always @(posedge clk or negedge rst) begin
         game_grid[0] <= x0;
         game_grid[1] <= x1;
         game_grid[2] <= x2;
