@@ -74,7 +74,7 @@ module Marker_and_Recorder(
 
                 if (mark == 2'b01) begin
                     // player A places a circle
-                    game_grid[position] <= 2'b01;
+                    game_grid_reg[position] <= 2'b01;
                     
                     circle_history[circle_rear] <= position;   // upadte history queue
                     circle_rear <= circle_rear + 1;
@@ -82,7 +82,7 @@ module Marker_and_Recorder(
 
                     // disappearing crosses
                     if (circle_count >= 3 && cross_count >= 3) begin
-                        game_grid[cross_history[cross_front]] <= 2'b00;
+                        game_grid_reg[cross_history[cross_front]] <= 2'b00;
                         cross_front <= cross_front + 1;
                         cross_count <= cross_count - 1;
                     end
@@ -90,7 +90,7 @@ module Marker_and_Recorder(
 
                 // player B places a cross
                 else if (mark == 2'b10) begin
-                    game_grid[position] <= 2'b10;
+                    game_grid_reg[position] <= 2'b10;
                    
                     cross_history[cross_rear] <= position;  
                     cross_rear <= cross_rear + 1;
@@ -98,7 +98,7 @@ module Marker_and_Recorder(
 
                     // disappearing circle
                     if (cross_count >= 3 && circle_count >= 3) begin
-                        game_grid[circle_history[circle_front]] <= 2'b00;
+                        game_grid_reg[circle_history[circle_front]] <= 2'b00;
                         circle_front <= circle_front + 1;
                         circle_count <= circle_count - 1;
                     end
