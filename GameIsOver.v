@@ -1,4 +1,4 @@
-module GameIsOver(b0,b1,b2,b3,b4,b5,b6,b7,b8,whosTurn,tenDigit,UnitDigit,gameend)
+module GameIsOver(b0,b1,b2,b3,b4,b5,b6,b7,b8,whosTurn,tenDigit,UnitDigit,gameend);
 input [1:0] b0,b1,b2,b3,b4,b5,b6,b7,b8;
 input whosTurn;
 input [3:0] tenDigit,UnitDigit;
