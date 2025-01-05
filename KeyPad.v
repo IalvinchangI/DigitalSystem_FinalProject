@@ -8,8 +8,8 @@ module KeyPad (
     reg [1:0] rowSelect;
 
     // 掃描行邏輯
-    always @(posedge clk_100Hz or posedge reset) begin
-        if (reset) begin
+	always @(posedge clk_100Hz or negedge reset) begin
+	    if (~reset) begin
             rowSelect <= 2'b00;
             keypadRow <= 4'b1110; // 初始狀態：選擇第一行
 				end 
@@ -27,7 +27,7 @@ module KeyPad (
     end
 
     // 按鍵值解碼邏輯
-    always @(posedge clk_100Hz or posedge reset) begin
+	always @(posedge clk_100Hz or negedge reset) begin
         if (reset)
             keyValue <= 4'b0000; // initial KeyValue
         else 
