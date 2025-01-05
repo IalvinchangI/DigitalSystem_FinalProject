@@ -12,7 +12,7 @@ module Marker_and_Recorder(
     output reg [1:0] y0, y1, y2, y3, y4, y5, y6, y7, y8              
 );  
 
-    reg [1:0] game_grid [0:8];
+    reg [1:0] game_grid_reg [0:8];
 
     reg [1:0] circle_count;              // 0,1,2,3,2,3,2,3,...
     reg [1:0] cross_count;
@@ -28,17 +28,18 @@ module Marker_and_Recorder(
     reg [3:0] circle_history [0:3]; 
     reg [3:0] cross_history [0:3]; 
 
-    always @(posedge clk or negedge rst) begin
-        game_grid[0] <= x0;
-        game_grid[1] <= x1;
-        game_grid[2] <= x2;
-        game_grid[3] <= x3;
-        game_grid[4] <= x4;
-        game_grid[5] <= x5;
-        game_grid[6] <= x6;
-        game_grid[7] <= x7;
-        game_grid[8] <= x8;
+    assign y0 = game_grid_reg[0];
+    assign y1 = game_grid_reg[1];
+    assign y2 = game_grid_reg[2];
+    assign y3 = game_grid_reg[3];
+    assign y4 = game_grid_reg[4];
+    assign y5 = game_grid_reg[5];
+    assign y6 = game_grid_reg[6];
+    assign y7 = game_grid_reg[7];
+    assign y8 = game_grid_reg[8];
 
+
+    always @(posedge clk or negedge rst) begin
         if (~rst) begin
             circle_count <= 2'b00;
             cross_count <= 2'b00;
@@ -49,7 +50,7 @@ module Marker_and_Recorder(
 
             // initialize grid
             for (i = 0; i < 9; i = i + 1) begin
-                game_grid[i] <= 2'b00;
+                game_grid_reg[i] <= 2'b00;
             end
 
             // initialize history queue
@@ -61,6 +62,16 @@ module Marker_and_Recorder(
         
         else begin
             // player's input is valid
+            game_grid_reg[0] <= x0;
+            game_grid_reg[1] <= x1;
+            game_grid_reg[2] <= x2;
+            game_grid_reg[3] <= x3;
+            game_grid_reg[4] <= x4;
+            game_grid_reg[5] <= x5;
+            game_grid_reg[6] <= x6;
+            game_grid_reg[7] <= x7;
+            game_grid_reg[8] <= x8;
+
                 if (mark == 2'b01) begin
                     // player A places a circle
                     game_grid[position] <= 2'b01;
@@ -91,32 +102,7 @@ module Marker_and_Recorder(
                         circle_front <= circle_front + 1;
                         circle_count <= circle_count - 1;
                     end
-                end
-
-                // valid input 
-                if (mark != 2'b00) begin
-                    y0 <= game_grid[0];
-                    y1 <= game_grid[1];
-                    y2 <= game_grid[2];
-                    y3 <= game_grid[3];
-                    y4 <= game_grid[4];
-                    y5 <= game_grid[5];
-                    y6 <= game_grid[6];
-                    y7 <= game_grid[7];
-                    y8 <= game_grid[8];
-                end
-                // invalid input then the grid not change
-                else begin 
-                    y0 <= x0;
-                    y1 <= x1;
-                    y2 <= x2;
-                    y3 <= x3;
-                    y4 <= x4;
-                    y5 <= x5;
-                    y6 <= x6;
-                    y7 <= x7;
-                    y8 <= x8;
-                end      
+                end 
         end        
     end
 
