@@ -81,7 +81,7 @@ module Marker_and_Recorder(
                     circle_count <= circle_count + 1;
 
                     // disappearing crosses
-                    if (circle_count >= 3 && cross_count >= 3) begin
+                    if (cross_count >= 3) begin
                         game_grid_reg[cross_history[cross_front]] <= 2'b00;
                         cross_front <= cross_front + 1;
                         cross_count <= cross_count - 1;
@@ -97,7 +97,7 @@ module Marker_and_Recorder(
                     cross_count <= cross_count + 1;
 
                     // disappearing circle
-                    if (cross_count >= 3 && circle_count >= 3) begin
+                    if (circle_count >= 3) begin
                         game_grid_reg[circle_history[circle_front]] <= 2'b00;
                         circle_front <= circle_front + 1;
                         circle_count <= circle_count - 1;
