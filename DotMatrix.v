@@ -43,7 +43,7 @@ module DotMatrix(
                             3'd2: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00100010; end
                             3'd3: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00100100; end
                             3'd4: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00001000; end
-                            3'd5: begin dot_col_left <= 8'b10000000; dot_col_right <= 8'b00001000; end
+                            3'd5: begin dot_col_left <= 8'b10000000; dot_col_right <= 8'b00000000; end
                             3'd6: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00011100; end
                             3'd7: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00011100; end
                         endcase
@@ -55,7 +55,7 @@ module DotMatrix(
                             3'd2: begin dot_col_left <= 8'b00100010; dot_col_right <= 8'b00100100; end
                             3'd3: begin dot_col_left <= 8'b00100100; dot_col_right <= 8'b00011000; end
                             3'd4: begin dot_col_left <= 8'b00001000; dot_col_right <= 8'b00111100; end
-                            3'd5: begin dot_col_left <= 8'b00001000; dot_col_right <= 8'b00100100; end
+                            3'd5: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b00100100; end
                             3'd6: begin dot_col_left <= 8'b00011100; dot_col_right <= 8'b01000010; end
                             3'd7: begin dot_col_left <= 8'b00011100; dot_col_right <= 8'b10000001; end
                         endcase
