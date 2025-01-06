@@ -12,7 +12,18 @@ module DotMatrix(
 );
 
     reg [2:0] current_row;    // 目前顯示的row索引（3位元，範圍0~7）
+    reg toggle;               // 用於切換顯示模式的暫存器
 	 
+	 
+	 // 切換顯示模式的邏輯
+    always @(posedge clk_2Hz or negedge reset) begin
+        if (~reset) begin
+            toggle <= 1'b0;
+        end 
+		  else begin
+            toggle <= ~toggle; // 每個clk_2Hz週期切換一次
+        end
+    end
 	 
     // 點矩陣顯示邏輯
     always @(posedge clk_10000Hz or negedge reset) begin
