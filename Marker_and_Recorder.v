@@ -9,7 +9,7 @@ module Marker_and_Recorder(
     input [3:0] position,                // choice of position for this run on grid (0-8)
                                          // 01:O     10:X    00:empty
     input [1:0] x0, x1, x2, x3, x4, x5, x6, x7, x8,
-    output reg [1:0] y0, y1, y2, y3, y4, y5, y6, y7, y8              
+    output [1:0] y0, y1, y2, y3, y4, y5, y6, y7, y8              
 );  
 
     reg [1:0] game_grid [0:8];
