@@ -1,11 +1,12 @@
 module DotMatrix(
-    input wire clk_10000Hz,        // 10000Hz        
+    input wire clk_10000Hz,        // 10000Hz 
+    input wire clk_2Hz, //2Hz
     
-	 input reset,              
+    input reset,              
     input whosTurn,           // 0: O / 1: X
     input [1:0] gameend,      // 00: not end / 01: O win / 10: X win
     
-	 output reg [7:0] dot_row, // 共用的row訊號輸出
+    output reg [7:0] dot_row, // 共用的row訊號輸出
     output reg [7:0] dot_col_left, // 左邊8x8的column訊號輸出
     output reg [7:0] dot_col_right // 右邊8x8的column訊號輸出
 );
@@ -63,34 +64,63 @@ module DotMatrix(
                 end
                 
 					 
-					 2'b01: 
-					 begin // O 贏
-                    case (current_row)
-									3'd0: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b11111111; end
-									3'd1: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b10000001; end
-									3'd2: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b10000001; end
-									3'd3: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b01000010; end
-									3'd4: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00111100; end
-									3'd5: begin dot_col_left <= 8'b10000000; dot_col_right <= 8'b00011000; end
-									3'd6: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00100100; end
-									3'd7: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b01111110; end
-                    endcase
+		2'b01: 
+		begin // O 贏
+                    if (toggle) begin // 顯示 O_
+                        case (current_row)
+                            3'd0: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00000000; end
+                            3'd1: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00000000; end
+                            3'd2: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000000; end
+                            3'd3: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000000; end
+                            3'd4: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000000; end
+                            3'd5: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000000; end
+                            3'd6: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00000000; end
+                            3'd7: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00000000; end
+                        endcase
+                    end 
+		    else begin // 顯示 WIN
+                        case (current_row)
+                            3'd0: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11010001; end
+                            3'd1: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11011001; end
+                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd3: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
+                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd5: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010011; end
+                            3'd6: begin dot_col_left <= 8'b10101011; dot_col_right <= 8'b11010001; end
+                            3'd7: begin dot_col_left <= 8'b01010011; dot_col_right <= 8'b11010001; end
+                        endcase
+                    end
                 end
 					 
 					 
+					 
                 2'b10: 
-					 begin // X 贏
-                    case (current_row)
-									3'd0: begin dot_col_left <= 8'b11111111; dot_col_right <= 8'b10000001; end
-									3'd1: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b01000010; end
-									3'd2: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00100100; end
-									3'd3: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00011000; end
-									3'd4: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00111100; end
-									3'd5: begin dot_col_left <= 8'b00011000; dot_col_right <= 8'b00100100; end
-									3'd6: begin dot_col_left <= 8'b00100100; dot_col_right <= 8'b01000010; end
-									3'd7: begin dot_col_left <= 8'b01111110; dot_col_right <= 8'b10000001; end
-endcase
-				 end
+		begin // X 贏
+                    if (toggle) begin // 顯示 _X
+                        case (current_row)
+                            3'd0: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b10000001; end
+                            3'd1: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b01000010; end
+                            3'd2: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b00100100; end
+                            3'd3: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b00011000; end
+                            3'd4: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b00011000; end
+                            3'd5: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b00100100; end
+                            3'd6: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b01000010; end
+                            3'd7: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b10000001; end
+                        endcase
+                    end 
+		    else begin // 顯示 WIN
+                        case (current_row)
+                            3'd0: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11010001; end
+                            3'd1: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11011001; end
+                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd3: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
+                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd5: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010011; end
+                            3'd6: begin dot_col_left <= 8'b10101011; dot_col_right <= 8'b11010001; end
+                            3'd7: begin dot_col_left <= 8'b01010011; dot_col_right <= 8'b11010001; end
+                        endcase
+                    end
+                end
 					 
 					 
                 default: begin
