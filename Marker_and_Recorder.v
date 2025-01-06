@@ -32,7 +32,16 @@ module Marker_and_Recorder(
     );
 
 
-    assign {y0, y1, y2, y3, y4, y5, y6, y7, y8} = game_grid_reg;
+    assign y0 = game_grid_reg[0];
+    assign y1 = game_grid_reg[1];
+    assign y2 = game_grid_reg[2];
+    assign y3 = game_grid_reg[3];
+    assign y4 = game_grid_reg[4];
+    assign y5 = game_grid_reg[5];
+    assign y6 = game_grid_reg[6];
+    assign y7 = game_grid_reg[7];
+    assign y8 = game_grid_reg[8];
+
 
     always @(posedge clk or negedge rst) begin
         if (~rst) begin
@@ -70,7 +79,7 @@ module Queue #(parameter SIZE = 6, WIDTH = 4) (
     output reg size
 );
     reg [WIDTH-1:0] queue_mem [0:SIZE-1];
-    reg [$clog2(SIZE):0] front, rear, size;  // pointers and size
+    reg [$clog2(SIZE):0] front, rear;  // pointers and size
 
     always @(posedge clk or negedge rst) begin
         if (~rst) begin
