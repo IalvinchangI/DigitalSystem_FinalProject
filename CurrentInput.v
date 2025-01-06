@@ -22,7 +22,8 @@ module CurrentInput(
             mark <= 2'b00;
             location <= 4'd0;
         end else begin
-            if (timeCounter == 0) begin
+            if(gameend!=0);
+            else if (timeCounter == 0) begin
                 whosTurn <= ~whosTurn;
                 timeCounter <= 10'd0;
             end else begin
