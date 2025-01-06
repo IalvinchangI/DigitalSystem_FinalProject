@@ -3,7 +3,7 @@ module DotMatrix(
     input wire clk_2Hz, //2Hz
 	 
     input reset,              
-    input whosTurn,           // 0: O / 1: X
+    input whosTurn,           // (reverse) 0: O / 1: X
     input [1:0] gameend,      // 00: not end / 01: O win / 10: X win 
     
     output reg [7:0] dot_row, // 共用的row訊號輸出
@@ -12,7 +12,7 @@ module DotMatrix(
 );
 
     reg [2:0] current_row;    // 目前顯示的row索引（3位元，範圍0~7）
-    reg toggle;               // 用於切換顯示模式的暫存器
+	 reg toggle;               // 用於切換顯示模式的暫存器
 	 
 	 
 	 // 切換顯示模式的邏輯
@@ -55,29 +55,29 @@ module DotMatrix(
             case (gameend)
                 2'b00: 
 		begin // 比賽未結束
-			if (whosTurn == 1) begin // O 的回合
+                    if (whosTurn == 1) begin // O 的回合
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00111110; end
                             3'd1: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00100010; end
                             3'd2: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000010; end
                             3'd3: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000100; end
                             3'd4: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00001000; end
-                            3'd5: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000000; end
-                            3'd6: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00011100; end
-                            3'd7: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00011100; end
+                            3'd5: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00001000; end
+                            3'd6: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00000000; end
+                            3'd7: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00001000; end
                         endcase
                     end 
 						  
-						  else begin // X 的回合
+		else begin // X 的回合
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b00111110; dot_col_right <= 8'b10000001; end
                             3'd1: begin dot_col_left <= 8'b00100010; dot_col_right <= 8'b01000010; end
                             3'd2: begin dot_col_left <= 8'b00000010; dot_col_right <= 8'b00100100; end
                             3'd3: begin dot_col_left <= 8'b00000100; dot_col_right <= 8'b00011000; end
                             3'd4: begin dot_col_left <= 8'b00001000; dot_col_right <= 8'b00011000; end
-                            3'd5: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b00100100; end
-                            3'd6: begin dot_col_left <= 8'b00011100; dot_col_right <= 8'b01000010; end
-                            3'd7: begin dot_col_left <= 8'b00011100; dot_col_right <= 8'b10000001; end
+                            3'd5: begin dot_col_left <= 8'b00001000; dot_col_right <= 8'b00100100; end
+                            3'd6: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b01000010; end
+                            3'd7: begin dot_col_left <= 8'b00001000; dot_col_right <= 8'b10000001; end
                         endcase
                     end
                 end
@@ -99,14 +99,14 @@ module DotMatrix(
                     end 
 						  else begin // 顯示 WIN
                         case (current_row)
-                            3'd0: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11010001; end
-                            3'd1: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11011001; end
-                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd3: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd5: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010011; end
-                            3'd6: begin dot_col_left <= 8'b10101011; dot_col_right <= 8'b11010001; end
-                            3'd7: begin dot_col_left <= 8'b01010011; dot_col_right <= 8'b11010001; end
+                            3'd0: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b10010001; end
+                            3'd1: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b00011001; end
+                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b00010101; end
+                            3'd3: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b00010101; end
+                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b00010101; end
+                            3'd5: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b00010011; end
+                            3'd6: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b00010001; end
+                            3'd7: begin dot_col_left <= 8'b01010011; dot_col_right <= 8'b10010001; end
                         endcase
                     end
                 end
@@ -127,16 +127,16 @@ module DotMatrix(
                             3'd7: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b10000001; end
                         endcase
                     end 
-						  else begin // 顯示 WIN
+		    else begin // 顯示 WIN
                         case (current_row)
-                            3'd0: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11010001; end
-                            3'd1: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11011001; end
-                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd3: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd5: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010011; end
-                            3'd6: begin dot_col_left <= 8'b10101011; dot_col_right <= 8'b11010001; end
-                            3'd7: begin dot_col_left <= 8'b01010011; dot_col_right <= 8'b11010001; end
+                            3'd0: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b11010001; end
+                            3'd1: begin dot_col_left <= 8'b10001000; dot_col_right <= 8'b10011001; end
+                            3'd2: begin dot_col_left <= 8'b10101000; dot_col_right <= 8'b10010101; end
+                            3'd3: begin dot_col_left <= 8'b10101000; dot_col_right <= 8'b10010101; end
+                            3'd4: begin dot_col_left <= 8'b10101000; dot_col_right <= 8'b10010101; end
+                            3'd5: begin dot_col_left <= 8'b10101000; dot_col_right <= 8'b10010011; end
+                            3'd6: begin dot_col_left <= 8'b10101000; dot_col_right <= 8'b10010001; end
+                            3'd7: begin dot_col_left <= 8'b01010001; dot_col_right <= 8'b11010001; end
                         endcase
                     end
                 end
