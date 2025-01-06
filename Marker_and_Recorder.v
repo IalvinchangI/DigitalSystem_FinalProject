@@ -14,12 +14,12 @@ module Marker_and_Recorder(
 
 	always @(posedge clk or negedge rst) begin
 		if (~rst) begin
-			p0 <= 4'b9;
-			p1 <= 4'b9;
-			p2 <= 4'b9;	
-			p3 <= 4'b9;
-			p4 <= 4'b9;
-			p5 <= 4'b9;	
+			p0 <= 4'd9;
+			p1 <= 4'd9;
+			p2 <= 4'd9;	
+			p3 <= 4'd9;
+			p4 <= 4'd9;
+			p5 <= 4'd9;	
 			pt <= 3'b0;
 			y0 <= 2'b0;
 			y1 <= 2'b0;
