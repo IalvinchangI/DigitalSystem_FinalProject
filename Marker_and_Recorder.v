@@ -76,16 +76,16 @@ module Queue #(parameter SIZE = 6, WIDTH = 4) (
     output reg [WIDTH-1:0] data_out,     // data to dequeue
     output reg full,                     // full flag
     output reg empty,                    // empty flag
-    output reg size
+    output size
 );
     reg [WIDTH-1:0] queue_mem [0:SIZE-1];
-    reg [$clog2(SIZE):0] front, rear;  // pointers and size
+    reg [$clog2(SIZE):0] front, rear, count;  // pointers and count
 
     always @(posedge clk or negedge rst) begin
         if (~rst) begin
             front <= 0;
             rear <= 0;
-            size <= 0;
+            count <= 0;
             full <= 0;
             empty <= 1;
 
@@ -94,18 +94,19 @@ module Queue #(parameter SIZE = 6, WIDTH = 4) (
             if (enqueue && !full) begin
                 queue_mem[rear] <= data_in;
                 rear <= (rear + 1) % SIZE;
-                size <= size + 1;
+                count <= count + 1;
             end
 
             if (dequeue && !empty) begin
                 data_out <= queue_mem[front];
                 front <= (front + 1) % SIZE;
-                size <= size - 1;
+                count <= count - 1;
             end
 
             // update status flags
-            full <= (size == SIZE);
-            empty <= (size == 0);
+            full <= (count == SIZE);
+            empty <= (count == 0);
+            size <= count;
         end
     end
 endmodule
