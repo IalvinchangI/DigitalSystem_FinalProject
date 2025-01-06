@@ -23,7 +23,7 @@ module CurrentInput(
         end else begin
             if (timeCounter == 0) begin
                 whosTurn <= ~whosTurn;
-                timeCounter <= 10'd800;
+                timeCounter <= 10'd0;
             end else begin
                 timeCounter <= timeCounter - 1;
             end
