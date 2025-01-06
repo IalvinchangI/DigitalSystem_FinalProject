@@ -30,7 +30,7 @@ module CurrentInput(
 
             timeLeft1 <= timeCounter/100;
             timeLeft2 <= (timeCounter/10)%10;
-
+            if(timeCounter != 0) begin
             case (keyPadBuf)
                 4'd0: begin
                     if (a0 == 2'b00) begin
@@ -105,6 +105,7 @@ module CurrentInput(
                     end else mark <= 2'b00;
                 end
             endcase
+            end
         end
     end
 endmodule
