@@ -54,8 +54,8 @@ module DotMatrix(
             // 根據狀態選擇左右顯示的圖案
             case (gameend)
                 2'b00: 
-					 begin // 比賽未結束
-                    if (whosTurn == 0) begin // O 的回合
+		begin // 比賽未結束
+			if (whosTurn == 1) begin // O 的回合
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00111110; end
                             3'd1: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00100010; end
@@ -83,8 +83,8 @@ module DotMatrix(
                 end
                 
 					 
-					 2'b01: 
-					 begin // O 贏
+		2'b01: 
+		begin // O 贏
                     if (toggle) begin // 顯示 O_
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00000000; end
@@ -114,7 +114,7 @@ module DotMatrix(
 					 
 					 
                 2'b10: 
-					  begin // X 贏
+		begin // X 贏
                     if (toggle) begin // 顯示 _X
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b10000001; end
