@@ -2,17 +2,17 @@ module DotMatrix(
     input wire clk_10000Hz,        // 10000Hz        
     input wire clk_2Hz, //2Hz
 	 
-	 input reset,              
+    input reset,              
     input whosTurn,           // 0: O / 1: X
     input [1:0] gameend,      // 00: not end / 01: O win / 10: X win 
     
-	 output reg [7:0] dot_row, // 共用的row訊號輸出
+    output reg [7:0] dot_row, // 共用的row訊號輸出
     output reg [7:0] dot_col_left, // 左邊8x8的column訊號輸出
     output reg [7:0] dot_col_right // 右邊8x8的column訊號輸出
 );
 
     reg [2:0] current_row;    // 目前顯示的row索引（3位元，範圍0~7）
-	 reg toggle;               // 用於切換顯示模式的暫存器
+    reg toggle;               // 用於切換顯示模式的暫存器
 	 
 	 
 	 // 切換顯示模式的邏輯
@@ -62,7 +62,7 @@ module DotMatrix(
                             3'd2: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000010; end
                             3'd3: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000100; end
                             3'd4: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00001000; end
-                            3'd5: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00001000; end
+                            3'd5: begin dot_col_left <= 8'b10000001; dot_col_right <= 8'b00000000; end
                             3'd6: begin dot_col_left <= 8'b01000010; dot_col_right <= 8'b00011100; end
                             3'd7: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00011100; end
                         endcase
@@ -75,7 +75,7 @@ module DotMatrix(
                             3'd2: begin dot_col_left <= 8'b00000010; dot_col_right <= 8'b00100100; end
                             3'd3: begin dot_col_left <= 8'b00000100; dot_col_right <= 8'b00011000; end
                             3'd4: begin dot_col_left <= 8'b00001000; dot_col_right <= 8'b00011000; end
-                            3'd5: begin dot_col_left <= 8'b00001000; dot_col_right <= 8'b00100100; end
+                            3'd5: begin dot_col_left <= 8'b00000000; dot_col_right <= 8'b00100100; end
                             3'd6: begin dot_col_left <= 8'b00011100; dot_col_right <= 8'b01000010; end
                             3'd7: begin dot_col_left <= 8'b00011100; dot_col_right <= 8'b10000001; end
                         endcase
