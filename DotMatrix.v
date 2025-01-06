@@ -2,7 +2,8 @@ module DotMatrix(
     input wire clk_10000Hz,        // 10000Hz        
     input wire clk_2Hz, //2Hz
 	 
-    input reset,              
+    input start,
+	 input reset,              
     input whosTurn,           // (reverse) 0: O / 1: X
     input [1:0] gameend,      // 00: not end / 01: O win / 10: X win 
     
@@ -51,10 +52,25 @@ module DotMatrix(
 
 				
 				
+				 if (~start) begin
+                // 當 start=0 時顯示 "LOAD"
+                case (current_row)
+                    3'd0: begin dot_col_left <= 8'b10000110; dot_col_right <= 8'b01001100; end // L + O
+                    3'd1: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b10101010; end
+                    3'd2: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b10101001; end
+                    3'd3: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b10101001; end
+                    3'd4: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b10101001; end
+                    3'd5: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b11101001; end
+                    3'd6: begin dot_col_left <= 8'b10001001; dot_col_right <= 8'b10101010; end
+                    3'd7: begin dot_col_left <= 8'b11100110; dot_col_right <= 8'b10101100; end // D
+                endcase
+            end 
+				else begin
+            // 當 start=1 時啟動遊戲邏輯
             // 根據狀態選擇左右顯示的圖案
             case (gameend)
                 2'b00: 
-		begin // 比賽未結束
+				begin // 比賽未結束
                     if (whosTurn == 1) begin // O 的回合
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b00111100; dot_col_right <= 8'b00111110; end
