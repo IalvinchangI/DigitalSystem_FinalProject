@@ -101,9 +101,9 @@ module DotMatrix(
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11010001; end
                             3'd1: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11011001; end
-                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
                             3'd3: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
                             3'd5: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010011; end
                             3'd6: begin dot_col_left <= 8'b10101011; dot_col_right <= 8'b11010001; end
                             3'd7: begin dot_col_left <= 8'b01010011; dot_col_right <= 8'b11010001; end
@@ -131,9 +131,9 @@ module DotMatrix(
                         case (current_row)
                             3'd0: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11010001; end
                             3'd1: begin dot_col_left <= 8'b10001011; dot_col_right <= 8'b11011001; end
-                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd2: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
                             3'd3: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
-                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010001; end
+                            3'd4: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010101; end
                             3'd5: begin dot_col_left <= 8'b10101001; dot_col_right <= 8'b10010011; end
                             3'd6: begin dot_col_left <= 8'b10101011; dot_col_right <= 8'b11010001; end
                             3'd7: begin dot_col_left <= 8'b01010011; dot_col_right <= 8'b11010001; end
