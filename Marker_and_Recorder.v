@@ -3,107 +3,125 @@
 module Marker_and_Recorder( 
     input clk,
     input rst,
-    input [1:0] game_state, 
+    input game_state, 
     input whosTurn,                      // 1:X,  0:O
     input [1:0] mark,                    // mark for 10:X, 01:O, 00:default
     input [3:0] position,                // choice of position for this run on grid (0-8)
                                          // 01:O     10:X    00:empty
     input [1:0] x0, x1, x2, x3, x4, x5, x6, x7, x8,
-    output [1:0] y0, y1, y2, y3, y4, y5, y6, y7, y8              
+    output reg [1:0] y0, y1, y2, y3, y4, y5, y6, y7, y8              
 );  
 
-    reg [1:0] game_grid_reg [0:8];
+    reg [1:0] game_grid [0:8];
 
-    reg [1:0] circle_count;              // 0,1,2,3,2,3,2,3,...
-    reg [1:0] cross_count;
+    // q outputs
+    wire [3:0] circle_dequeue_out, cross_dequeue_out;
+    wire circle_full, circle_empty, circle_count;
+    wire cross_full, cross_empty, cross_count;
 
-    // queue indices
-    reg [1:0] circle_front;              // 0,1,2,3,0,1,2,3....
-    reg [1:0] cross_front;     
-    reg [1:0] circle_rear;               // 0,1,2,3,0,1,2,3....
-    reg [1:0] cross_rear;               
-    
-    integer i;                           // for looping
+    // q for circle and cross history
+    Queue #(.SIZE(4), .WIDTH(4)) circle_queue (
+        .clk(clk),
+        .rst(rst),
+        .enqueue(mark == 2'b01),         // enqueue when player O makes a move
+        .dequeue(!circle_empty && (mark == 2'b10) && (circle_count >= 3)), // dequeue when X makes a move and O >= 3
+        .data_in(position),
+        .data_out(circle_dequeue_out),
+        .full(circle_full),
+        .empty(circle_empty)
+    );
 
-    reg [3:0] circle_history [0:3]; 
-    reg [3:0] cross_history [0:3]; 
+    Queue #(.SIZE(4), .WIDTH(4)) cross_queue (
+        .clk(clk),
+        .rst(rst),
+        .enqueue(mark == 2'b10),         // enqueue when player X makes a move
+        .dequeue(!cross_empty && (mark == 2'b01) && (cross_count >= 3)), // dequeue when O makes a move and X >= 3
+        .data_in(position),
+        .data_out(cross_dequeue_out),
+        .full(cross_full),
+        .empty(cross_empty)
+    );
 
-    assign y0 = game_grid_reg[0];
-    assign y1 = game_grid_reg[1];
-    assign y2 = game_grid_reg[2];
-    assign y3 = game_grid_reg[3];
-    assign y4 = game_grid_reg[4];
-    assign y5 = game_grid_reg[5];
-    assign y6 = game_grid_reg[6];
-    assign y7 = game_grid_reg[7];
-    assign y8 = game_grid_reg[8];
-
+    assign {y0, y1, y2, y3, y4, y5, y6, y7, y8} = game_grid_reg;
 
     always @(posedge clk or negedge rst) begin
         if (~rst) begin
-            circle_count <= 2'b00;
-            cross_count <= 2'b00;
-            circle_front <= 2'b00;
-            cross_front <= 2'b00;
-            circle_rear <= 2'b00;
-            cross_rear <= 2'b00;
-
-            // initialize grid
-            for (i = 0; i < 9; i = i + 1) begin
-                game_grid_reg[i] <= 2'b00;
-            end
-
-            // initialize history queue
-            for (i = 0; i < 4; i = i + 1) begin
-                circle_history[i] <= 4'b0;
-                cross_history[i] <= 4'b0;
-            end
+            game_grid_reg[0] <= 2'b00;
+            game_grid_reg[1] <= 2'b00;
+            game_grid_reg[2] <= 2'b00;
+            game_grid_reg[3] <= 2'b00;
+            game_grid_reg[4] <= 2'b00;
+            game_grid_reg[5] <= 2'b00;
+            game_grid_reg[6] <= 2'b00;
+            game_grid_reg[7] <= 2'b00;
+            game_grid_reg[8] <= 2'b00;
         end 
-        
         else begin
-            // player's input is valid
-            game_grid_reg[0] <= x0;
-            game_grid_reg[1] <= x1;
-            game_grid_reg[2] <= x2;
-            game_grid_reg[3] <= x3;
-            game_grid_reg[4] <= x4;
-            game_grid_reg[5] <= x5;
-            game_grid_reg[6] <= x6;
-            game_grid_reg[7] <= x7;
-            game_grid_reg[8] <= x8;
+            game_grid[0] <= x0;
+            game_grid[1] <= x1;
+            game_grid[2] <= x2;
+            game_grid[3] <= x3;
+            game_grid[4] <= x4;
+            game_grid[5] <= x5;
+            game_grid[6] <= x6;
+            game_grid[7] <= x7;
+            game_grid[8] <= x8;
 
-                if (mark == 2'b01) begin
-                    // player A places a circle
-                    game_grid_reg[position] <= 2'b01;
-                    
-                    circle_history[circle_rear] <= position;   // upadte history queue
-                    circle_rear <= circle_rear + 1;
-                    circle_count <= circle_count + 1;
-
-                    // disappearing crosses
-                    if (cross_count >= 3) begin
-                        game_grid_reg[cross_history[cross_front]] <= 2'b00;
-                        cross_front <= cross_front + 1;
-                        cross_count <= cross_count - 1;
-                    end
+            if (mark == 2'b01) begin
+                game_grid_reg[position] <= 2'b01;               // update grid for O
+                if (!cross_empty) begin
+                    game_grid_reg[cross_dequeue_out] <= 2'b00;  // remove oldest X
                 end
-
-                // player B places a cross
-                else if (mark == 2'b10) begin
-                    game_grid_reg[position] <= 2'b10;
-                   
-                    cross_history[cross_rear] <= position;  
-                    cross_rear <= cross_rear + 1;
-                    cross_count <= cross_count + 1;
-
-                    // disappearing circle
-                    if (circle_count >= 3) begin
-                        game_grid_reg[circle_history[circle_front]] <= 2'b00;
-                        circle_front <= circle_front + 1;
-                        circle_count <= circle_count - 1;
-                    end
-                end 
-        end        
+            end else if (mark == 2'b10) begin
+                game_grid_reg[position] <= 2'b10;              // update grid for X
+                if (!circle_empty) begin
+                    game_grid_reg[circle_dequeue_out] <= 2'b00; // remove oldest O
+                end
+            end
+        end   
     end
+endmodule
 
+
+module Queue #(parameter SIZE = 4, WIDTH = 4) (
+    input clk,
+    input rst,
+    input enqueue,                       // signal to enqueue 
+    input dequeue,                       // signal to dequeue 
+    input [WIDTH-1:0] data_in,           // data to enqueue
+    output reg [WIDTH-1:0] data_out,     // data to dequeue
+    output reg full,                     // full flag
+    output reg empty,                    // empty flag
+    output reg count
+);
+    reg [WIDTH-1:0] queue_mem [0:SIZE-1];
+    reg [$clog2(SIZE):0] front, rear, count;  // pointers and count
+
+    always @(posedge clk or negedge rst) begin
+        if (~rst) begin
+            front <= 0;
+            rear <= 0;
+            count <= 0;
+            full <= 0;
+            empty <= 1;
+
+        end else begin
+
+            if (enqueue && !full) begin
+                queue_mem[rear] <= data_in;
+                rear <= (rear + 1) % SIZE;
+                count <= count + 1;
+            end
+
+            if (dequeue && !empty) begin
+                data_out <= queue_mem[front];
+                front <= (front + 1) % SIZE;
+                count <= count - 1;
+            end
+
+            // update status flags
+            full <= (count == SIZE);
+            empty <= (count == 0);
+        end
+    end
 endmodule
