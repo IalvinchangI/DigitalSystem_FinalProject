@@ -1,5 +1,6 @@
 module KeyPad (
     input wire clk_100Hz,         // 100Hz
+    input wire start,
     input wire reset,             // 重置訊號
     input wire [3:0] keypadCol,   // Keypad 的列輸入訊號
     output reg [3:0] keypadRow,   // Keypad 的行輸出訊號
@@ -30,7 +31,9 @@ module KeyPad (
 	always @(posedge clk_100Hz or negedge reset) begin
 	if (~reset)
             keyValue <= 4'd9; // initial KeyValue
-        else 
+	else if (start==0) 
+            keyValue <= 4'd9
+	else
 	begin
             case ({keypadRow, keypadCol})
                // 第一行
