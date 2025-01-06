@@ -1,7 +1,7 @@
 module CurrentInput(
     clk, rst, keyPadBuf,
     a0, a1, a2, a3, a4, a5, a6, a7, a8,
-    location, whosTurn, mark, timeLeft1, timeLeft2
+    location, whosTurn, mark, timeLeft1, timeLeft2, gameend
 );
     input rst, clk; // 100Hz clock
     input [3:0] keyPadBuf;
@@ -30,6 +30,7 @@ module CurrentInput(
 
             timeLeft1 <= timeCounter/100;
             timeLeft2 <= (timeCounter/10)%10;
+            if(gameend == 0) begin
             if(timeCounter != 0) begin
             case (keyPadBuf)
                 4'd0: begin
@@ -105,6 +106,7 @@ module CurrentInput(
                     end else mark <= 2'b00;
                 end
             endcase
+            end
             end
         end
     end
