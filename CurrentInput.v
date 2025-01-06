@@ -6,7 +6,7 @@ module CurrentInput(
     input rst, clk; // 100Hz clock
     input [3:0] keyPadBuf;
     input [1:0] a0, a1, a2, a3, a4, a5, a6, a7, a8; // The matrix after elimination
-    input [1:0] gammend;
+    input [1:0] gameend;
 
     output reg [3:0] location;//0~8
     output reg [1:0] mark;//10:X, 01:O, 00:default
