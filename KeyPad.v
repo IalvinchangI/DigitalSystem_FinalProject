@@ -32,7 +32,7 @@ module KeyPad (
 	if (~reset)
             keyValue <= 4'd9; // initial KeyValue
 	else if (start==0) 
-            keyValue <= 4'd9
+            keyValue <= 4'd9;
 	else
 	begin
             case ({keypadRow, keypadCol})

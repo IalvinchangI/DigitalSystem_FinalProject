@@ -1,6 +1,6 @@
 
 module Tic_Tae_Toe(
-	clock, reset, 
+	clock, reset, start_game, 
 	keypadCol, keypadRow, 
 	dot_row, dot_col_right, dot_col_left, 
 	seven1, seven0, 
@@ -9,6 +9,7 @@ module Tic_Tae_Toe(
 	
 	input clock;						// MAX10_CLK1_50
 	input reset;						// KEY0
+	input start_game;						// KEY1
 	
 	input  [3:0] keypadCol;			// keypad col 
 	output [3:0] keypadRow;			// keypad row
@@ -38,6 +39,7 @@ module Tic_Tae_Toe(
 	wire [1:0] a9;
 	
 	// game state
+	reg start;  // game is start?
 	wire [1:0] game_end;
 	wire [3:0] time_left_ten;
 	wire [3:0] time_left_one;
@@ -50,13 +52,13 @@ module Tic_Tae_Toe(
 	
 	// clock generate
 	wire pixel_clock;
-//	wire system_clock;
 	wire keypad_clock;
 	wire dotmatrix_clock;
+	wire dm_switch_clock;
 	FrequencyDivider #(.TimeExpire(32'd1))				PixelClockFD (clock, pixel_clock);  			// 25MHz
-//	FrequencyDivider #(.TimeExpire(32'd250_0000))	SystemClockFD (clock, system_clock);  			// 10Hz
 	FrequencyDivider #(.TimeExpire(32'd25_0000))		KeyPadClockFD (clock, keypad_clock);  			// 100Hz
 	FrequencyDivider #(.TimeExpire(32'd2500))			DotMatrixClockFD (clock, dotmatrix_clock);  	// 10000Hz
+	FrequencyDivider #(.TimeExpire(32'd1250_0000))	DMSwitchClockFD (clock, dm_switch_clock);  	// 2Hz
 	
 	
 	// system
@@ -65,13 +67,14 @@ module Tic_Tae_Toe(
 		a1, a2, a3, a4, a5, a6, a7, a8, a9, 
 		game_end, 
 		time_left_ten, time_left_one, 
-		turn
+		turn, 
+		start
 	);
 	
 	
 	// control
 	KeyPad KeyPadControl (
-		keypad_clock, reset, 
+		keypad_clock, start, reset, 
 		keypadCol, keypadRow, 
 		keypad_buffer
 	);
@@ -83,14 +86,27 @@ module Tic_Tae_Toe(
 		seven1, seven0
 	);
 	DotMatrix DotMatrixDisplay (
-		dotmatrix_clock, reset, 
+		dotmatrix_clock, dm_switch_clock, start, reset, 
 		turn, game_end, 
 		dot_row, dot_col_left, dot_col_right
 	);
 	VGADisplay ScreenDisplay (
-		pixel_clock, reset, 
+		pixel_clock, reset, start, 
 		a1, a2, a3, a4, a5, a6, a7, a8, a9, 
 		VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS
 	);
+	
+	
+	// start game control
+	always @(posedge keypad_clock or negedge reset) begin
+		if (~reset) begin
+			start <= 0;
+		end
+		else begin
+			if (~start_game) begin
+				start <= 1;
+			end
+		end
+	end
 
 endmodule

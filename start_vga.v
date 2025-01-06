@@ -1,4 +1,4 @@
-module RGB_get(x, y, r, g, b);
+module start_vga(x, y, r, g, b);
 	input [9:0] x;
 	input [8:0] y;
 
@@ -55,8 +55,8 @@ module RGB_get(x, y, r, g, b);
         if (result == 1)
         begin
           r = 4'd13;
-					g = 4'd5;
-					b = 4'd13;
+			 g = 4'd5;
+			 b = 4'd13;
         end
         else
         begin
@@ -71,8 +71,8 @@ module RGB_get(x, y, r, g, b);
         if (result == 1)
         begin
           r = 4'd13;
-					g = 4'd5;
-					b = 4'd13;
+			 g = 4'd5;
+			 b = 4'd13;
         end
         else
         begin

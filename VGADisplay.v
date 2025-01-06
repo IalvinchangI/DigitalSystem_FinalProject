@@ -1,8 +1,9 @@
 // @author IalvinchangI
 
-module VGADisplay(pixel_clock, reset, a1, a2, a3, a4, a5, a6, a7, a8, a9, VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS);
+module VGADisplay(pixel_clock, reset, start, a1, a2, a3, a4, a5, a6, a7, a8, a9, VGA_R, VGA_G, VGA_B, VGA_HS, VGA_VS);
 	input pixel_clock;
 	input reset;
+	input start;
 	input [1:0] a1;	// game grid
 	input [1:0] a2;	// game grid
 	input [1:0] a3;	// game grid
@@ -29,6 +30,10 @@ module VGADisplay(pixel_clock, reset, a1, a2, a3, a4, a5, a6, a7, a8, a9, VGA_R,
 	
 	
 	// display
+	wire [3:0] R_start;
+   wire [3:0] G_start;
+   wire [3:0] B_start;
+	start_vga StartPixelGenerator(x, y, R_start, G_start, B_start);
 	wire [3:0] R;
    wire [3:0] G;
    wire [3:0] B;
@@ -48,9 +53,16 @@ module VGADisplay(pixel_clock, reset, a1, a2, a3, a4, a5, a6, a7, a8, a9, VGA_R,
 				VGA_B <= 0;
 			end
 			else begin  // video display
-				VGA_R <= R;
-				VGA_G <= G;
-				VGA_B <= B;
+				if (start == 0) begin
+					VGA_R <= R_start;
+					VGA_G <= G_start;
+					VGA_B <= B_start;
+				end
+				else begin
+					VGA_R <= R;
+					VGA_G <= G;
+					VGA_B <= B;
+				end
 			end  // (x_active == 0) || (y_active == 0)
 			
 		end  // ~reset

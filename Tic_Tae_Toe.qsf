@@ -118,6 +118,8 @@ set_location_assignment PIN_W5 -to dot_col_right[2]
 set_location_assignment PIN_AA14 -to dot_col_right[1]
 set_location_assignment PIN_AB13 -to dot_col_right[0]
 set_location_assignment PIN_D15 -to seven0[7]
+set_location_assignment PIN_A7 -to start_game
+set_global_assignment -name VERILOG_FILE start_vga.v
 set_global_assignment -name VERILOG_FILE System.v
 set_global_assignment -name VERILOG_FILE SevenDisplay.v
 set_global_assignment -name VERILOG_FILE Marker_and_Recorder.v

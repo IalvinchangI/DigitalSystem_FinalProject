@@ -83,9 +83,9 @@ module RGB_get(x, y, a1, a2, a3, a4, a5, a6, a7, a8, a9, r, g, b);
 					result = check_O(x-160, y-80);
 					if (result == 1)
 					begin
-						r = 4'd12;
-						g = 4'd2;
-						b = 4'd12;
+						r = 4'd13;
+						g = 4'd5;
+						b = 4'd13;
 					end
 					else
 					begin

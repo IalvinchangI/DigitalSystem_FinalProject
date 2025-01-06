@@ -167,6 +167,7 @@ module DotMatrix(
 					 
 					 
             endcase
+				end
         end
     end
 endmodule
