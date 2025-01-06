@@ -1,12 +1,13 @@
 module CurrentInput(
     clk, rst, keyPadBuf,
     a0, a1, a2, a3, a4, a5, a6, a7, a8,
-    location, whosTurn, mark, timeLeft1, timeLeft2, gameend
+    location, whosTurn, mark, timeLeft1, timeLeft2, gameend, start
 );
     input rst, clk; // 100Hz clock
     input [3:0] keyPadBuf;
     input [1:0] a0, a1, a2, a3, a4, a5, a6, a7, a8; // The matrix after elimination
     input [1:0] gameend;
+    input start;
 
     output reg [3:0] location;//0~8
     output reg [1:0] mark;//10:X, 01:O, 00:default
@@ -22,7 +23,7 @@ module CurrentInput(
             mark <= 2'b00;
             location <= 4'd9;
         end else begin
-            if(gameend!=0);
+            if(gameend!=0 || start==0);
             else if (timeCounter == 0) begin
                 whosTurn <= ~whosTurn;
                 timeCounter <= 10'd0;
