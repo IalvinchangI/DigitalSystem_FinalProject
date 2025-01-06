@@ -58,7 +58,7 @@ module Marker_and_Recorder(
             if (mark != 2'b00) begin
                 game_grid_reg[position] <= mark;
 
-                if (!q_empty) begin
+                if (q_size == 5) begin
                     game_grid_reg[dequeue_out] <= 2'b00;  // clear oldest position
                 end
             end
@@ -76,7 +76,7 @@ module Queue #(parameter SIZE = 6, WIDTH = 4) (
     output reg [WIDTH-1:0] data_out,     // data to dequeue
     output reg full,                     // full flag
     output reg empty,                    // empty flag
-    output size
+    output reg size
 );
     reg [WIDTH-1:0] queue_mem [0:SIZE-1];
     reg [$clog2(SIZE):0] front, rear;  // pointers and count
